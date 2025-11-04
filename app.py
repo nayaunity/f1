@@ -20,10 +20,11 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Professional CSS styling
+# F1 × Adobe × Notion inspired styling
 st.markdown("""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap');
     @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap');
 
     * {
@@ -31,7 +32,7 @@ st.markdown("""
     }
 
     .main {
-        background: #000000;
+        background: linear-gradient(180deg, #0a0a0a 0%, #000000 100%);
         color: #ffffff;
     }
 
@@ -40,8 +41,8 @@ st.markdown("""
     header {visibility: hidden;}
 
     ::-webkit-scrollbar {
-        width: 8px;
-        height: 8px;
+        width: 10px;
+        height: 10px;
     }
 
     ::-webkit-scrollbar-track {
@@ -49,19 +50,19 @@ st.markdown("""
     }
 
     ::-webkit-scrollbar-thumb {
-        background: #e10600;
-        border-radius: 4px;
+        background: linear-gradient(180deg, #E10600 0%, #FF1E00 100%);
+        border-radius: 5px;
     }
 
     ::-webkit-scrollbar-thumb:hover {
-        background: #ff0800;
+        background: linear-gradient(180deg, #FF1E00 0%, #E10600 100%);
     }
 
     h1, h2, h3, h4, h5, h6 {
-        font-family: 'Inter', sans-serif !important;
+        font-family: 'Space Grotesk', 'Inter', sans-serif !important;
         font-weight: 700 !important;
         color: #ffffff !important;
-        letter-spacing: -0.02em !important;
+        letter-spacing: -0.03em !important;
     }
 
     h1, h2, h3 {
@@ -69,113 +70,186 @@ st.markdown("""
         padding-bottom: 0 !important;
     }
 
+    /* Sidebar styling - F1 garage inspired */
     [data-testid="stSidebar"] {
-        background: linear-gradient(180deg, #0a0a0a 0%, #000000 100%);
-        border-right: 1px solid #1a1a1a;
+        background: linear-gradient(180deg, #15151e 0%, #0a0a0f 100%);
+        border-right: none;
+        box-shadow: 4px 0 24px rgba(0, 0, 0, 0.12);
     }
 
     [data-testid="stSidebar"] [data-testid="stMarkdownContainer"] p {
-        color: #999999;
+        color: #e0e0e0;
         font-size: 0.875rem;
         font-weight: 500;
     }
 
-    .stSelectbox label {
-        color: #666666 !important;
-        font-size: 0.75rem !important;
-        font-weight: 600 !important;
+    [data-testid="stSidebar"] h3 {
+        color: #ffffff !important;
+        font-size: 0.875rem !important;
+        font-weight: 700 !important;
         text-transform: uppercase !important;
-        letter-spacing: 0.05em !important;
+        letter-spacing: 0.1em !important;
+        margin-bottom: 1.5rem !important;
+        padding-bottom: 0.75rem !important;
+        border-bottom: 2px solid #E10600 !important;
+    }
+
+    .stSelectbox label {
+        color: #b0b0b0 !important;
+        font-size: 0.6875rem !important;
+        font-weight: 700 !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.08em !important;
         margin-bottom: 0.5rem !important;
     }
 
     .stSelectbox > div > div {
-        background-color: #0a0a0a !important;
-        border: 1px solid #1a1a1a !important;
-        border-radius: 6px !important;
+        background: rgba(255, 255, 255, 0.05) !important;
+        border: 1.5px solid rgba(255, 255, 255, 0.1) !important;
+        border-radius: 8px !important;
         color: #ffffff !important;
+        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        backdrop-filter: blur(10px);
     }
 
     .stSelectbox > div > div:hover {
-        border-color: #e10600 !important;
+        border-color: #E10600 !important;
+        background: rgba(225, 6, 0, 0.08) !important;
+        box-shadow: 0 0 0 3px rgba(225, 6, 0, 0.1);
     }
 
     .stSelectbox > div > div:focus-within {
-        border-color: #e10600 !important;
-        box-shadow: 0 0 0 1px #e10600 !important;
+        border-color: #E10600 !important;
+        box-shadow: 0 0 0 3px rgba(225, 6, 0, 0.15) !important;
+        background: rgba(225, 6, 0, 0.08) !important;
     }
 
+    /* F1 Racing button */
     .stButton > button {
-        background: #e10600;
+        background: linear-gradient(135deg, #E10600 0%, #FF1E00 100%);
         color: #ffffff;
         border: none;
-        border-radius: 6px;
-        padding: 0.625rem 1.25rem;
-        font-weight: 600;
-        font-size: 0.875rem;
-        letter-spacing: 0.01em;
-        transition: all 0.2s ease;
+        border-radius: 8px;
+        padding: 0.75rem 1.5rem;
+        font-weight: 700;
+        font-size: 0.8125rem;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         width: 100%;
+        box-shadow: 0 4px 14px rgba(225, 6, 0, 0.25);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .stButton > button:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+        transition: left 0.5s;
+    }
+
+    .stButton > button:hover:before {
+        left: 100%;
     }
 
     .stButton > button:hover {
-        background: #ff0800;
-        transform: translateY(-1px);
-        box-shadow: 0 4px 12px rgba(225, 6, 0, 0.3);
+        background: linear-gradient(135deg, #FF1E00 0%, #E10600 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(225, 6, 0, 0.35);
     }
 
     .stButton > button:active {
         transform: translateY(0);
+        box-shadow: 0 2px 8px rgba(225, 6, 0, 0.3);
     }
 
+    .stButton > button:disabled {
+        background: linear-gradient(135deg, #6b6b6b 0%, #4a4a4a 100%);
+        box-shadow: none;
+        cursor: not-allowed;
+        opacity: 0.5;
+    }
+
+    /* Metrics - Adobe inspired Dark */
     [data-testid="stMetricLabel"] {
-        color: #666666 !important;
-        font-size: 0.75rem !important;
-        font-weight: 600 !important;
+        color: #9b9b9b !important;
+        font-size: 0.6875rem !important;
+        font-weight: 700 !important;
         text-transform: uppercase !important;
-        letter-spacing: 0.05em !important;
+        letter-spacing: 0.08em !important;
     }
 
     [data-testid="stMetricValue"] {
         color: #ffffff !important;
         font-size: 1.875rem !important;
-        font-weight: 700 !important;
+        font-weight: 800 !important;
         font-family: 'JetBrains Mono', monospace !important;
     }
 
-    [data-testid="stMetricDelta"] {
-        font-size: 0.875rem !important;
-        font-weight: 600 !important;
+    /* Notion-style cards - Dark */
+    .session-header {
+        background: linear-gradient(135deg, #15151e 0%, #0f0f15 100%);
+        border: 1.5px solid #2a2a35;
+        border-radius: 12px;
+        padding: 2rem 2.5rem;
+        margin: 2rem 0;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4), 0 2px 8px rgba(225, 6, 0, 0.1);
+        transition: all 0.3s ease;
     }
 
-    .session-header {
-        background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
-        border: 1px solid #2a2a2a;
-        border-radius: 8px;
-        padding: 1.5rem 2rem;
-        margin: 2rem 0;
+    .session-header:hover {
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5), 0 4px 12px rgba(225, 6, 0, 0.15);
+        border-color: #3a3a45;
     }
 
     .driver-card {
-        background: #0a0a0a;
-        border: 1px solid #1a1a1a;
-        border-radius: 8px;
-        padding: 2rem 1.5rem;
+        background: linear-gradient(135deg, #15151e 0%, #12121a 100%);
+        border: 1.5px solid #2a2a35;
+        border-radius: 16px;
+        padding: 2.5rem 2rem;
         height: 100%;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4), 0 2px 8px rgba(0, 0, 0, 0.3);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
     }
 
+    .driver-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.6), 0 4px 16px rgba(225, 6, 0, 0.2);
+        border-color: #E10600;
+    }
+
+    .driver-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, var(--team-color, #E10600) 0%, transparent 100%);
+    }
+
+    /* F1 Winner badge */
     .winner-badge {
         display: inline-flex;
         align-items: center;
-        gap: 0.5rem;
-        background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
-        color: #000000;
-        padding: 0.5rem 1.5rem;
-        border-radius: 6px;
-        font-weight: 700;
-        font-size: 0.875rem;
-        letter-spacing: 0.02em;
+        gap: 0.75rem;
+        background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+        color: #1a1a1a;
+        padding: 0.875rem 2rem;
+        border-radius: 50px;
+        font-weight: 800;
+        font-size: 0.9375rem;
+        letter-spacing: 0.03em;
         text-transform: uppercase;
+        box-shadow: 0 4px 16px rgba(255, 215, 0, 0.3);
+        font-family: 'Space Grotesk', sans-serif;
     }
 
     .vs-divider {
@@ -183,172 +257,206 @@ st.markdown("""
         align-items: center;
         justify-content: center;
         height: 100%;
-        font-size: 3rem;
+        font-size: 4rem;
         font-weight: 900;
-        color: #e10600;
-        font-family: 'Inter', sans-serif;
-        letter-spacing: 0.1em;
+        background: linear-gradient(135deg, #E10600 0%, #FF1E00 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-family: 'Space Grotesk', sans-serif;
+        letter-spacing: 0.05em;
+        filter: drop-shadow(0 2px 4px rgba(225, 6, 0, 0.2));
     }
 
     .section-header {
-        font-size: 0.75rem;
-        font-weight: 700;
+        font-size: 0.8125rem;
+        font-weight: 800;
         text-transform: uppercase;
-        letter-spacing: 0.1em;
-        color: #666666;
-        margin: 3rem 0 1.5rem 0;
-        padding-bottom: 0.75rem;
-        border-bottom: 1px solid #1a1a1a;
+        letter-spacing: 0.12em;
+        color: #9b9b9b;
+        margin: 3.5rem 0 1.5rem 0;
+        padding-bottom: 0.875rem;
+        border-bottom: 2px solid #2a2a35;
+        font-family: 'Space Grotesk', sans-serif;
     }
 
     .team-badge {
         display: inline-block;
-        padding: 0.25rem 0.75rem;
-        background: #1a1a1a;
-        border-radius: 4px;
-        font-size: 0.75rem;
-        font-weight: 600;
-        color: #999999;
+        padding: 0.375rem 1rem;
+        background: linear-gradient(135deg, #2a2a35 0%, #1f1f28 100%);
+        border: 1px solid #3a3a45;
+        border-radius: 6px;
+        font-size: 0.6875rem;
+        font-weight: 700;
+        color: #b0b0b0;
         text-transform: uppercase;
-        letter-spacing: 0.05em;
+        letter-spacing: 0.08em;
     }
 
     .divider {
         height: 1px;
-        background: linear-gradient(90deg, transparent 0%, #1a1a1a 50%, transparent 100%);
-        margin: 2rem 0;
+        background: linear-gradient(90deg, transparent 0%, #2a2a35 50%, transparent 100%);
+        margin: 3rem 0;
     }
 
     .info-box {
-        background: #0a0a0a;
-        border: 1px solid #1a1a1a;
-        border-left: 3px solid #e10600;
-        border-radius: 6px;
-        padding: 1.5rem;
+        background: linear-gradient(135deg, #15151e 0%, #0f0f15 100%);
+        border: 1.5px solid #2a2a35;
+        border-left: 4px solid #E10600;
+        border-radius: 12px;
+        padding: 2rem;
         margin: 2rem 0;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
     }
 
     .info-box h3 {
         margin: 0 0 1rem 0;
         font-size: 1.125rem;
-        font-weight: 600;
+        font-weight: 700;
+        color: #ffffff !important;
     }
 
     .info-box p, .info-box ol {
-        color: #999999;
-        line-height: 1.6;
+        color: #9b9b9b;
+        line-height: 1.7;
     }
 
     .feature-card {
-        background: #0a0a0a;
-        border: 1px solid #1a1a1a;
-        border-radius: 8px;
-        padding: 2rem;
+        background: linear-gradient(135deg, #15151e 0%, #12121a 100%);
+        border: 1.5px solid #2a2a35;
+        border-radius: 12px;
+        padding: 2.5rem;
         height: 100%;
-        transition: all 0.2s ease;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
     }
 
     .feature-card:hover {
-        border-color: #2a2a2a;
-        transform: translateY(-2px);
+        border-color: #E10600;
+        transform: translateY(-4px);
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.6), 0 4px 16px rgba(225, 6, 0, 0.2);
     }
 
     .feature-card h3 {
-        font-size: 1rem;
-        margin: 0 0 0.75rem 0;
-        color: #ffffff;
+        font-size: 1.125rem;
+        margin: 0 0 0.875rem 0;
+        color: #ffffff !important;
+        font-weight: 700;
     }
 
     .feature-card p {
-        color: #999999;
-        font-size: 0.875rem;
-        line-height: 1.6;
+        color: #9b9b9b;
+        font-size: 0.9375rem;
+        line-height: 1.7;
         margin: 0;
     }
 
     .stSpinner > div {
-        border-color: #e10600 !important;
+        border-color: #E10600 !important;
     }
 
+    /* Alert styling - Dark Adobe inspired */
     .stSuccess {
-        background-color: rgba(0, 255, 0, 0.1) !important;
-        border: 1px solid rgba(0, 255, 0, 0.3) !important;
-        border-radius: 6px !important;
-        color: #00ff00 !important;
+        background: linear-gradient(135deg, rgba(102, 187, 106, 0.15) 0%, rgba(76, 175, 80, 0.1) 100%) !important;
+        border: 1.5px solid #66bb6a !important;
+        border-radius: 10px !important;
+        color: #81c784 !important;
+        padding: 1rem 1.25rem !important;
+        font-weight: 500 !important;
     }
 
     .stError {
-        background-color: rgba(255, 0, 0, 0.1) !important;
-        border: 1px solid rgba(255, 0, 0, 0.3) !important;
-        border-radius: 6px !important;
-        color: #ff0000 !important;
+        background: linear-gradient(135deg, rgba(239, 83, 80, 0.15) 0%, rgba(244, 67, 54, 0.1) 100%) !important;
+        border: 1.5px solid #ef5350 !important;
+        border-radius: 10px !important;
+        color: #ef5350 !important;
+        padding: 1rem 1.25rem !important;
+        font-weight: 500 !important;
     }
 
     .stWarning {
-        background-color: rgba(255, 165, 0, 0.1) !important;
-        border: 1px solid rgba(255, 165, 0, 0.3) !important;
-        border-radius: 6px !important;
+        background: linear-gradient(135deg, rgba(255, 167, 38, 0.15) 0%, rgba(255, 152, 0, 0.1) 100%) !important;
+        border: 1.5px solid #ffa726 !important;
+        border-radius: 10px !important;
+        color: #ffb74d !important;
+        padding: 1rem 1.25rem !important;
+        font-weight: 500 !important;
     }
 
     .stInfo {
-        background-color: rgba(0, 150, 255, 0.1) !important;
-        border: 1px solid rgba(0, 150, 255, 0.3) !important;
-        border-radius: 6px !important;
+        background: linear-gradient(135deg, rgba(66, 165, 245, 0.15) 0%, rgba(33, 150, 243, 0.1) 100%) !important;
+        border: 1.5px solid #42a5f5 !important;
+        border-radius: 10px !important;
+        color: #64b5f6 !important;
+        padding: 1rem 1.25rem !important;
+        font-weight: 500 !important;
     }
 
     .main-title {
-        font-size: 2.5rem;
+        font-size: 3.5rem;
         font-weight: 900;
-        letter-spacing: -0.03em;
-        margin-bottom: 0.5rem;
-        background: linear-gradient(90deg, #ffffff 0%, #999999 100%);
+        letter-spacing: -0.04em;
+        margin-bottom: 0.75rem;
+        background: linear-gradient(135deg, #ffffff 0%, #E10600 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
+        font-family: 'Space Grotesk', sans-serif;
+        line-height: 1.1;
     }
 
     .main-subtitle {
-        font-size: 1rem;
+        font-size: 1.125rem;
         font-weight: 500;
-        color: #666666;
-        letter-spacing: 0.02em;
-        margin-bottom: 2rem;
+        color: #9b9b9b;
+        letter-spacing: 0.01em;
+        margin-bottom: 3rem;
     }
 
     .driver-name {
-        font-size: 1.5rem;
-        font-weight: 800;
-        margin-bottom: 0.5rem;
-        letter-spacing: -0.02em;
+        font-size: 1.75rem;
+        font-weight: 900;
+        margin-bottom: 0.75rem;
+        letter-spacing: -0.03em;
+        color: #ffffff;
+        font-family: 'Space Grotesk', sans-serif;
     }
 
     .lap-time {
         font-family: 'JetBrains Mono', monospace;
-        font-size: 2.5rem;
-        font-weight: 700;
-        color: #ffffff;
-        margin: 1rem 0;
+        font-size: 3rem;
+        font-weight: 800;
+        background: linear-gradient(135deg, #ffffff 0%, #b0b0b0 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin: 1.25rem 0;
+        line-height: 1;
     }
 
     .data-quality-badge {
         display: inline-block;
-        padding: 0.25rem 0.75rem;
-        border-radius: 4px;
-        font-size: 0.75rem;
-        font-weight: 600;
+        padding: 0.375rem 1rem;
+        border-radius: 6px;
+        font-size: 0.6875rem;
+        font-weight: 700;
         text-transform: uppercase;
-        letter-spacing: 0.05em;
+        letter-spacing: 0.06em;
     }
 
     .quality-good {
-        background: rgba(0, 255, 0, 0.2);
-        color: #00ff00;
-        border: 1px solid rgba(0, 255, 0, 0.3);
+        background: linear-gradient(135deg, rgba(102, 187, 106, 0.2) 0%, rgba(76, 175, 80, 0.15) 100%);
+        color: #81c784;
+        border: 1px solid #66bb6a;
     }
 
     .quality-warning {
-        background: rgba(255, 165, 0, 0.2);
-        color: #ffa500;
-        border: 1px solid rgba(255, 165, 0, 0.3);
+        background: linear-gradient(135deg, rgba(255, 167, 38, 0.2) 0%, rgba(255, 152, 0, 0.15) 100%);
+        color: #ffb74d;
+        border: 1px solid #ffa726;
+    }
+
+    /* Speed lines effect on hover */
+    @keyframes speedLines {
+        0% { transform: translateX(-100%); }
+        100% { transform: translateX(100%); }
     }
 </style>
 """, unsafe_allow_html=True)
@@ -493,9 +601,9 @@ def create_speed_comparison(driver1_data, driver2_data, driver1_name, driver2_na
         yaxis_title="Speed (km/h)",
         hovermode='x unified',
         height=500,
-        plot_bgcolor='#000000',
+        plot_bgcolor='#0a0a0a',
         paper_bgcolor='#000000',
-        font=dict(color='#999999', size=11, family='Inter'),
+        font=dict(color='#9b9b9b', size=11, family='Inter'),
         margin=dict(l=60, r=40, t=20, b=60),
         legend=dict(
             orientation="h",
@@ -504,23 +612,27 @@ def create_speed_comparison(driver1_data, driver2_data, driver1_name, driver2_na
             xanchor="left",
             x=0,
             font=dict(size=12, color='#ffffff'),
-            bgcolor='rgba(0,0,0,0)'
+            bgcolor='rgba(21, 21, 30, 0.95)',
+            bordercolor='#2a2a35',
+            borderwidth=1
         ),
         xaxis=dict(
             gridcolor='#1a1a1a',
             showgrid=True,
             zeroline=False,
             showline=True,
-            linewidth=1,
-            linecolor='#1a1a1a'
+            linewidth=1.5,
+            linecolor='#2a2a35',
+            title_font=dict(size=12, color='#9b9b9b')
         ),
         yaxis=dict(
             gridcolor='#1a1a1a',
             showgrid=True,
             zeroline=False,
             showline=True,
-            linewidth=1,
-            linecolor='#1a1a1a'
+            linewidth=1.5,
+            linecolor='#2a2a35',
+            title_font=dict(size=12, color='#9b9b9b')
         )
     )
 
@@ -563,9 +675,9 @@ def create_track_map(driver1_data, driver2_data, driver1_name, driver2_name):
         xaxis_title="X Position (m)",
         yaxis_title="Y Position (m)",
         height=600,
-        plot_bgcolor='#000000',
+        plot_bgcolor='#0a0a0a',
         paper_bgcolor='#000000',
-        font=dict(color='#999999', size=11, family='Inter'),
+        font=dict(color='#9b9b9b', size=11, family='Inter'),
         margin=dict(l=60, r=40, t=20, b=60),
         yaxis=dict(
             scaleanchor="x",
@@ -574,16 +686,18 @@ def create_track_map(driver1_data, driver2_data, driver1_name, driver2_name):
             showgrid=True,
             zeroline=False,
             showline=True,
-            linewidth=1,
-            linecolor='#1a1a1a'
+            linewidth=1.5,
+            linecolor='#2a2a35',
+            title_font=dict(size=12, color='#9b9b9b')
         ),
         xaxis=dict(
             gridcolor='#1a1a1a',
             showgrid=True,
             zeroline=False,
             showline=True,
-            linewidth=1,
-            linecolor='#1a1a1a'
+            linewidth=1.5,
+            linecolor='#2a2a35',
+            title_font=dict(size=12, color='#9b9b9b')
         ),
         legend=dict(
             orientation="h",
@@ -592,7 +706,9 @@ def create_track_map(driver1_data, driver2_data, driver1_name, driver2_name):
             xanchor="left",
             x=0,
             font=dict(size=12, color='#ffffff'),
-            bgcolor='rgba(0,0,0,0)'
+            bgcolor='rgba(21, 21, 30, 0.95)',
+            bordercolor='#2a2a35',
+            borderwidth=1
         )
     )
 
@@ -660,12 +776,12 @@ def create_delta_time_plot(driver1_data, driver2_data, driver1_name, driver2_nam
     fig.add_hline(
         y=0,
         line_dash="solid",
-        line_color="#666666",
+        line_color="#9b9b9b",
         line_width=2,
         annotation_text="Even",
         annotation_position="right",
         annotation_font_size=10,
-        annotation_font_color="#999999"
+        annotation_font_color="#9b9b9b"
     )
 
     fig.update_layout(
@@ -673,10 +789,10 @@ def create_delta_time_plot(driver1_data, driver2_data, driver1_name, driver2_nam
         xaxis_title="Distance around the lap (meters)",
         yaxis_title="Time Gap (seconds)",
         height=600,
-        plot_bgcolor='#000000',
+        plot_bgcolor='#0a0a0a',
         paper_bgcolor='#000000',
         hovermode='x unified',
-        font=dict(color='#999999', size=11, family='Inter'),
+        font=dict(color='#9b9b9b', size=11, family='Inter'),
         margin=dict(l=60, r=40, t=20, b=60),
         legend=dict(
             orientation="h",
@@ -685,25 +801,29 @@ def create_delta_time_plot(driver1_data, driver2_data, driver1_name, driver2_nam
             xanchor="left",
             x=0,
             font=dict(size=11, color='#ffffff'),
-            bgcolor='rgba(0,0,0,0)'
+            bgcolor='rgba(21, 21, 30, 0.95)',
+            bordercolor='#2a2a35',
+            borderwidth=1
         ),
         xaxis=dict(
             gridcolor='#1a1a1a',
             showgrid=True,
             zeroline=False,
             showline=True,
-            linewidth=1,
-            linecolor='#1a1a1a'
+            linewidth=1.5,
+            linecolor='#2a2a35',
+            title_font=dict(size=12, color='#9b9b9b')
         ),
         yaxis=dict(
             gridcolor='#1a1a1a',
             showgrid=True,
             zeroline=True,
-            zerolinecolor='#666666',
+            zerolinecolor='#9b9b9b',
             zerolinewidth=2,
             showline=True,
-            linewidth=1,
-            linecolor='#1a1a1a'
+            linewidth=1.5,
+            linecolor='#2a2a35',
+            title_font=dict(size=12, color='#9b9b9b')
         ),
         annotations=[
             dict(
@@ -711,8 +831,10 @@ def create_delta_time_plot(driver1_data, driver2_data, driver1_name, driver2_nam
                 xref="paper", yref="paper",
                 x=0.98, y=0.98,
                 showarrow=False,
-                font=dict(size=11, color=color2, weight='bold'),
-                bgcolor='rgba(0, 0, 0, 0.8)',
+                font=dict(size=11, color=color2),
+                bgcolor='rgba(21, 21, 30, 0.95)',
+                bordercolor='#2a2a35',
+                borderwidth=1,
                 borderpad=8,
                 xanchor='right'
             ),
@@ -721,8 +843,10 @@ def create_delta_time_plot(driver1_data, driver2_data, driver1_name, driver2_nam
                 xref="paper", yref="paper",
                 x=0.98, y=0.02,
                 showarrow=False,
-                font=dict(size=11, color=color1, weight='bold'),
-                bgcolor='rgba(0, 0, 0, 0.8)',
+                font=dict(size=11, color=color1),
+                bgcolor='rgba(21, 21, 30, 0.95)',
+                bordercolor='#2a2a35',
+                borderwidth=1,
                 borderpad=8,
                 xanchor='right'
             )
@@ -876,10 +1000,10 @@ if all(key in st.session_state for key in ['driver1_data', 'driver2_data']):
     # Session info with data verification
     st.markdown(f"""
     <div class='session-header'>
-        <div style='font-size: 0.75rem; font-weight: 600; text-transform: uppercase; color: #666666; letter-spacing: 0.05em; margin-bottom: 0.5rem;'>
+        <div style='font-size: 0.6875rem; font-weight: 700; text-transform: uppercase; color: #9b9b9b; letter-spacing: 0.08em; margin-bottom: 0.5rem;'>
             {driver1_data['year']} {driver1_data['gp']}
         </div>
-        <div style='font-size: 1.125rem; font-weight: 600; color: #ffffff;'>
+        <div style='font-size: 1.25rem; font-weight: 700; color: #ffffff;'>
             {driver1_data['session_type']}
         </div>
     </div>
@@ -935,14 +1059,14 @@ if all(key in st.session_state for key in ['driver1_data', 'driver2_data']):
         quality_text = "Data Issues" if driver1_data['data_issues'] else "Complete Data"
 
         st.markdown(f"""
-        <div class='driver-card' style='border-left: 3px solid {TEAM_COLORS.get(driver1_data['team'], '#FF0000')}'>
+        <div class='driver-card' style='--team-color: {TEAM_COLORS.get(driver1_data['team'], '#E10600')}'>
             <div class='driver-name'>{driver1_name}</div>
             <div class='team-badge'>{driver1_data['team']}</div>
             <div style='margin: 0.5rem 0;'>
                 <span class='data-quality-badge {quality_class}'>{quality_text}</span>
             </div>
             <div class='lap-time'>{lap_time_1:.3f}</div>
-            <div style='color: #666666; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; margin-bottom: 2rem;'>
+            <div style='color: #9b9b9b; font-size: 0.6875rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 2rem;'>
                 LAP {driver1_data['lap_number']} TIME
             </div>
         </div>
@@ -960,14 +1084,14 @@ if all(key in st.session_state for key in ['driver1_data', 'driver2_data']):
         quality_text = "Data Issues" if driver2_data['data_issues'] else "Complete Data"
 
         st.markdown(f"""
-        <div class='driver-card' style='border-left: 3px solid {TEAM_COLORS.get(driver2_data['team'], '#0000FF')}'>
+        <div class='driver-card' style='--team-color: {TEAM_COLORS.get(driver2_data['team'], '#E10600')}'>
             <div class='driver-name'>{driver2_name}</div>
             <div class='team-badge'>{driver2_data['team']}</div>
             <div style='margin: 0.5rem 0;'>
                 <span class='data-quality-badge {quality_class}'>{quality_text}</span>
             </div>
             <div class='lap-time'>{lap_time_2:.3f}</div>
-            <div style='color: #666666; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; margin-bottom: 2rem;'>
+            <div style='color: #9b9b9b; font-size: 0.6875rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 2rem;'>
                 LAP {driver2_data['lap_number']} TIME
             </div>
         </div>
@@ -991,7 +1115,7 @@ if all(key in st.session_state for key in ['driver1_data', 'driver2_data']):
     # Charts
     st.markdown("<div class='section-header'>Speed Comparison</div>", unsafe_allow_html=True)
     speed_fig = create_speed_comparison(driver1_data, driver2_data, driver1_name, driver2_name)
-    st.plotly_chart(speed_fig, use_container_width=True)
+    st.plotly_chart(speed_fig, width='stretch')
 
     st.markdown("<div class='divider'></div>", unsafe_allow_html=True)
 
@@ -1002,12 +1126,12 @@ if all(key in st.session_state for key in ['driver1_data', 'driver2_data']):
         if driver1_data['data_issues'] or driver2_data['data_issues']:
             st.caption("⚠️ Track position data may be incomplete")
         track_fig = create_track_map(driver1_data, driver2_data, driver1_name, driver2_name)
-        st.plotly_chart(track_fig, use_container_width=True)
+        st.plotly_chart(track_fig, width='stretch')
 
     with col2:
         st.markdown("<div class='section-header'>Time Delta</div>", unsafe_allow_html=True)
         delta_fig = create_delta_time_plot(driver1_data, driver2_data, driver1_name, driver2_name)
-        st.plotly_chart(delta_fig, use_container_width=True)
+        st.plotly_chart(delta_fig, width='stretch')
 
 else:
     # Welcome screen
@@ -1055,7 +1179,7 @@ else:
 st.markdown("<div style='margin: 4rem 0;'></div>", unsafe_allow_html=True)
 
 st.markdown("""
-<div style='text-align: center; color: #333333; font-size: 0.75rem; padding: 2rem 0;'>
+<div style='text-align: center; color: #9b9b9b; font-size: 0.75rem; padding: 2rem 0;'>
     Unofficial application • Data provided by Fast-F1 • Not affiliated with Formula 1 or FIA
 </div>
 """, unsafe_allow_html=True)
