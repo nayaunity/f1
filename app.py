@@ -26,7 +26,6 @@ st.markdown("""
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
     @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap');
 
-    /* Global Styles */
     * {
         font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     }
@@ -36,12 +35,10 @@ st.markdown("""
         color: #ffffff;
     }
 
-    /* Hide Streamlit branding */
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
     header {visibility: hidden;}
 
-    /* Custom scrollbar */
     ::-webkit-scrollbar {
         width: 8px;
         height: 8px;
@@ -60,7 +57,6 @@ st.markdown("""
         background: #ff0800;
     }
 
-    /* Typography */
     h1, h2, h3, h4, h5, h6 {
         font-family: 'Inter', sans-serif !important;
         font-weight: 700 !important;
@@ -68,13 +64,11 @@ st.markdown("""
         letter-spacing: -0.02em !important;
     }
 
-    /* Remove default borders */
     h1, h2, h3 {
         border: none !important;
         padding-bottom: 0 !important;
     }
 
-    /* Sidebar */
     [data-testid="stSidebar"] {
         background: linear-gradient(180deg, #0a0a0a 0%, #000000 100%);
         border-right: 1px solid #1a1a1a;
@@ -86,7 +80,6 @@ st.markdown("""
         font-weight: 500;
     }
 
-    /* Selectbox styling */
     .stSelectbox label {
         color: #666666 !important;
         font-size: 0.75rem !important;
@@ -112,7 +105,6 @@ st.markdown("""
         box-shadow: 0 0 0 1px #e10600 !important;
     }
 
-    /* Button styling */
     .stButton > button {
         background: #e10600;
         color: #ffffff;
@@ -136,7 +128,6 @@ st.markdown("""
         transform: translateY(0);
     }
 
-    /* Metrics */
     [data-testid="stMetricLabel"] {
         color: #666666 !important;
         font-size: 0.75rem !important;
@@ -155,20 +146,6 @@ st.markdown("""
     [data-testid="stMetricDelta"] {
         font-size: 0.875rem !important;
         font-weight: 600 !important;
-    }
-
-    /* Cards */
-    .metric-card {
-        background: #0a0a0a;
-        border: 1px solid #1a1a1a;
-        border-radius: 8px;
-        padding: 1.5rem;
-        transition: all 0.2s ease;
-    }
-
-    .metric-card:hover {
-        border-color: #2a2a2a;
-        background: #0f0f0f;
     }
 
     .session-header {
@@ -213,7 +190,6 @@ st.markdown("""
         letter-spacing: 0.1em;
     }
 
-    /* Section headers */
     .section-header {
         font-size: 0.75rem;
         font-weight: 700;
@@ -225,7 +201,6 @@ st.markdown("""
         border-bottom: 1px solid #1a1a1a;
     }
 
-    /* Team badge */
     .team-badge {
         display: inline-block;
         padding: 0.25rem 0.75rem;
@@ -238,14 +213,12 @@ st.markdown("""
         letter-spacing: 0.05em;
     }
 
-    /* Divider */
     .divider {
         height: 1px;
         background: linear-gradient(90deg, transparent 0%, #1a1a1a 50%, transparent 100%);
         margin: 2rem 0;
     }
 
-    /* Info box */
     .info-box {
         background: #0a0a0a;
         border: 1px solid #1a1a1a;
@@ -266,7 +239,6 @@ st.markdown("""
         line-height: 1.6;
     }
 
-    /* Feature card */
     .feature-card {
         background: #0a0a0a;
         border: 1px solid #1a1a1a;
@@ -294,12 +266,10 @@ st.markdown("""
         margin: 0;
     }
 
-    /* Spinner */
     .stSpinner > div {
         border-color: #e10600 !important;
     }
 
-    /* Success/Error messages */
     .stSuccess {
         background-color: rgba(0, 255, 0, 0.1) !important;
         border: 1px solid rgba(0, 255, 0, 0.3) !important;
@@ -314,7 +284,18 @@ st.markdown("""
         color: #ff0000 !important;
     }
 
-    /* Title styling */
+    .stWarning {
+        background-color: rgba(255, 165, 0, 0.1) !important;
+        border: 1px solid rgba(255, 165, 0, 0.3) !important;
+        border-radius: 6px !important;
+    }
+
+    .stInfo {
+        background-color: rgba(0, 150, 255, 0.1) !important;
+        border: 1px solid rgba(0, 150, 255, 0.3) !important;
+        border-radius: 6px !important;
+    }
+
     .main-title {
         font-size: 2.5rem;
         font-weight: 900;
@@ -333,7 +314,6 @@ st.markdown("""
         margin-bottom: 2rem;
     }
 
-    /* Driver name styling */
     .driver-name {
         font-size: 1.5rem;
         font-weight: 800;
@@ -341,7 +321,6 @@ st.markdown("""
         letter-spacing: -0.02em;
     }
 
-    /* Lap time display */
     .lap-time {
         font-family: 'JetBrains Mono', monospace;
         font-size: 2.5rem;
@@ -350,11 +329,26 @@ st.markdown("""
         margin: 1rem 0;
     }
 
-    .time-advantage {
-        font-family: 'JetBrains Mono', monospace;
-        font-size: 1.25rem;
+    .data-quality-badge {
+        display: inline-block;
+        padding: 0.25rem 0.75rem;
+        border-radius: 4px;
+        font-size: 0.75rem;
         font-weight: 600;
-        color: #e10600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+
+    .quality-good {
+        background: rgba(0, 255, 0, 0.2);
+        color: #00ff00;
+        border: 1px solid rgba(0, 255, 0, 0.3);
+    }
+
+    .quality-warning {
+        background: rgba(255, 165, 0, 0.2);
+        color: #ffa500;
+        border: 1px solid rgba(255, 165, 0, 0.3);
     }
 </style>
 """, unsafe_allow_html=True)
@@ -376,6 +370,50 @@ TEAM_COLORS = {
 }
 
 
+def validate_telemetry_data(telemetry_data, driver_name):
+    """Validate telemetry data quality and completeness."""
+    issues = []
+
+    tel = telemetry_data['telemetry']
+
+    # Check if we have position data
+    if 'X' not in tel.columns or 'Y' not in tel.columns:
+        issues.append("Missing track position data")
+    else:
+        # Check for null values in position
+        if tel['X'].isna().any() or tel['Y'].isna().any():
+            issues.append("Incomplete track position data")
+
+        # Check if position data looks reasonable (not all zeros)
+        if tel['X'].std() < 1 or tel['Y'].std() < 1:
+            issues.append("Invalid track position data")
+
+    # Check speed data
+    if 'Speed' not in tel.columns:
+        issues.append("Missing speed data")
+    else:
+        if tel['Speed'].isna().any():
+            issues.append("Incomplete speed data")
+        if tel['Speed'].max() < 50:  # Should have speeds over 50 km/h
+            issues.append("Suspiciously low speed data")
+
+    # Check distance data
+    if 'Distance' not in tel.columns:
+        issues.append("Missing distance data")
+    else:
+        if tel['Distance'].isna().any():
+            issues.append("Incomplete distance data")
+        # A full lap should be at least 3km
+        if tel['Distance'].max() < 3000:
+            issues.append(f"Incomplete lap (only {tel['Distance'].max():.0f}m)")
+
+    # Check time data
+    if 'Time' not in tel.columns:
+        issues.append("Missing time data")
+
+    return issues
+
+
 @st.cache_data(show_spinner=False)
 def load_session(year, gp, session_type):
     """Load F1 session data with caching."""
@@ -388,8 +426,8 @@ def load_session(year, gp, session_type):
 
 
 @st.cache_data(show_spinner=False)
-def get_driver_telemetry(_session, driver_code):
-    """Get fastest lap telemetry for a specific driver."""
+def get_driver_telemetry(_session, driver_code, year, gp, session_type):
+    """Get fastest lap telemetry for a specific driver with validation."""
     try:
         driver_laps = _session.laps.pick_drivers(driver_code)
         if driver_laps.empty:
@@ -403,13 +441,23 @@ def get_driver_telemetry(_session, driver_code):
         if telemetry.empty:
             return None, f"No telemetry data available for driver {driver_code}"
 
-        return {
+        result = {
             'telemetry': telemetry,
             'lap_time': fastest_lap['LapTime'],
             'driver': fastest_lap['Driver'],
             'team': fastest_lap['Team'],
-            'compound': fastest_lap.get('Compound', 'Unknown')
-        }, None
+            'compound': fastest_lap.get('Compound', 'Unknown'),
+            'lap_number': fastest_lap.get('LapNumber', 'Unknown'),
+            'year': year,
+            'gp': gp,
+            'session_type': session_type
+        }
+
+        # Validate data quality
+        issues = validate_telemetry_data(result, driver_code)
+        result['data_issues'] = issues
+
+        return result, None
     except Exception as e:
         return None, f"Error loading telemetry for {driver_code}: {str(e)}"
 
@@ -421,22 +469,20 @@ def create_speed_comparison(driver1_data, driver2_data, driver1_name, driver2_na
     color1 = TEAM_COLORS.get(driver1_data['team'], '#FF0000')
     color2 = TEAM_COLORS.get(driver2_data['team'], '#0000FF')
 
-    # Driver 1 line
     fig.add_trace(go.Scatter(
         x=driver1_data['telemetry']['Distance'],
         y=driver1_data['telemetry']['Speed'],
         mode='lines',
-        name=driver1_name,
+        name=f"{driver1_name} (Lap {driver1_data['lap_number']})",
         line=dict(color=color1, width=3),
         hovertemplate='<b>%{fullData.name}</b><br>Distance: %{x:.0f}m<br>Speed: %{y:.0f} km/h<extra></extra>'
     ))
 
-    # Driver 2 line
     fig.add_trace(go.Scatter(
         x=driver2_data['telemetry']['Distance'],
         y=driver2_data['telemetry']['Speed'],
         mode='lines',
-        name=driver2_name,
+        name=f"{driver2_name} (Lap {driver2_data['lap_number']})",
         line=dict(color=color2, width=3),
         hovertemplate='<b>%{fullData.name}</b><br>Distance: %{x:.0f}m<br>Speed: %{y:.0f} km/h<extra></extra>'
     ))
@@ -496,7 +542,7 @@ def create_track_map(driver1_data, driver2_data, driver1_name, driver2_name):
         x=tel2['X'],
         y=tel2['Y'],
         mode='lines',
-        name=driver2_name,
+        name=f"{driver2_name} (Lap {driver2_data['lap_number']})",
         line=dict(color=color2, width=8, dash='dash'),
         opacity=0.5,
         hovertemplate='<b>%{fullData.name}</b><br>Speed: ' + tel2['Speed'].astype(str) + ' km/h<extra></extra>'
@@ -507,7 +553,7 @@ def create_track_map(driver1_data, driver2_data, driver1_name, driver2_name):
         x=tel1['X'],
         y=tel1['Y'],
         mode='lines',
-        name=driver1_name,
+        name=f"{driver1_name} (Lap {driver1_data['lap_number']})",
         line=dict(color=color1, width=3),
         hovertemplate='<b>%{fullData.name}</b><br>Speed: ' + tel1['Speed'].astype(str) + ' km/h<extra></extra>'
     ))
@@ -574,12 +620,9 @@ def create_delta_time_plot(driver1_data, driver2_data, driver1_name, driver2_nam
     color1 = TEAM_COLORS.get(driver1_data['team'], '#FF0000')
     color2 = TEAM_COLORS.get(driver2_data['team'], '#0000FF')
 
-    # Split into two traces: driver 1 winning zones and driver 2 winning zones
-    # Driver 2 is winning when delta is positive (driver 1 is slower)
     delta_driver2_winning = [d if d > 0 else 0 for d in delta]
     delta_driver1_winning = [d if d < 0 else 0 for d in delta]
 
-    # Driver 2 winning zones (driver 1 slower)
     fig.add_trace(go.Scatter(
         x=common_distance,
         y=delta_driver2_winning,
@@ -592,7 +635,6 @@ def create_delta_time_plot(driver1_data, driver2_data, driver1_name, driver2_nam
         showlegend=True
     ))
 
-    # Driver 1 winning zones (driver 2 slower)
     fig.add_trace(go.Scatter(
         x=common_distance,
         y=delta_driver1_winning,
@@ -605,7 +647,6 @@ def create_delta_time_plot(driver1_data, driver2_data, driver1_name, driver2_nam
         showlegend=True
     ))
 
-    # White line to show the actual delta
     fig.add_trace(go.Scatter(
         x=common_distance,
         y=delta,
@@ -616,7 +657,6 @@ def create_delta_time_plot(driver1_data, driver2_data, driver1_name, driver2_nam
         showlegend=False
     ))
 
-    # Prominent zero line
     fig.add_hline(
         y=0,
         line_dash="solid",
@@ -627,9 +667,6 @@ def create_delta_time_plot(driver1_data, driver2_data, driver1_name, driver2_nam
         annotation_font_size=10,
         annotation_font_color="#999999"
     )
-
-    # Calculate max delta for annotations
-    max_delta = max(abs(delta.min()), abs(delta.max()))
 
     fig.update_layout(
         showlegend=True,
@@ -724,14 +761,20 @@ with st.sidebar:
 
     session_type = st.selectbox(
         "Session Type",
-        options=["Race", "Qualifying", "Sprint", "Practice 1", "Practice 2", "Practice 3"],
-        index=0
+        options=["Qualifying", "Race", "Sprint", "Practice 1", "Practice 2", "Practice 3"],
+        index=0,
+        help="Qualifying and Race provide the most reliable comparison data"
     )
 
     st.markdown("")
 
     if st.button("Load Session"):
         if gp:
+            # Clear previous comparison data
+            for key in ['driver1_data', 'driver2_data', 'driver1_name', 'driver2_name']:
+                if key in st.session_state:
+                    del st.session_state[key]
+
             with st.spinner("Loading session data..."):
                 session, error = load_session(year, gp, session_type)
                 if error:
@@ -742,7 +785,7 @@ with st.sidebar:
                     st.session_state.year = year
                     st.session_state.gp = gp
                     st.session_state.session_type = session_type
-                    st.success("Session loaded")
+                    st.success(f"✓ Loaded {year} {gp} {session_type}")
         else:
             st.warning("Select a Grand Prix")
 
@@ -760,24 +803,43 @@ with st.sidebar:
 
         st.markdown("")
 
+        # Warning for practice sessions
+        if "Practice" in st.session_state.session_type:
+            st.warning("⚠️ Practice data may be incomplete. Qualifying or Race recommended.")
+
         if st.button("Compare"):
             if driver1 == driver2:
                 st.error("Select two different drivers")
             else:
-                with st.spinner("Loading telemetry..."):
-                    driver1_data, error1 = get_driver_telemetry(session, driver1)
-                    driver2_data, error2 = get_driver_telemetry(session, driver2)
+                # Clear old data
+                for key in ['driver1_data', 'driver2_data', 'driver1_name', 'driver2_name']:
+                    if key in st.session_state:
+                        del st.session_state[key]
+
+                with st.spinner(f"Loading telemetry for {driver1} and {driver2}..."):
+                    driver1_data, error1 = get_driver_telemetry(
+                        session, driver1,
+                        st.session_state.year,
+                        st.session_state.gp,
+                        st.session_state.session_type
+                    )
+                    driver2_data, error2 = get_driver_telemetry(
+                        session, driver2,
+                        st.session_state.year,
+                        st.session_state.gp,
+                        st.session_state.session_type
+                    )
 
                     if error1:
-                        st.error(f"Error: {error1}")
+                        st.error(f"Error loading {driver1}: {error1}")
                     elif error2:
-                        st.error(f"Error: {error2}")
+                        st.error(f"Error loading {driver2}: {error2}")
                     else:
                         st.session_state.driver1_data = driver1_data
                         st.session_state.driver2_data = driver2_data
                         st.session_state.driver1_name = driver1
                         st.session_state.driver2_name = driver2
-                        st.success("Ready")
+                        st.success("✓ Comparison ready")
                         st.rerun()
 
 # Main content
@@ -787,17 +849,45 @@ if all(key in st.session_state for key in ['driver1_data', 'driver2_data']):
     driver1_name = st.session_state.driver1_name
     driver2_name = st.session_state.driver2_name
 
-    # Session info
+    # Session info with data verification
     st.markdown(f"""
     <div class='session-header'>
         <div style='font-size: 0.75rem; font-weight: 600; text-transform: uppercase; color: #666666; letter-spacing: 0.05em; margin-bottom: 0.5rem;'>
-            {st.session_state.year} {st.session_state.gp}
+            {driver1_data['year']} {driver1_data['gp']}
         </div>
         <div style='font-size: 1.125rem; font-weight: 600; color: #ffffff;'>
-            {st.session_state.session_type}
+            {driver1_data['session_type']}
         </div>
     </div>
     """, unsafe_allow_html=True)
+
+    # Data quality warnings
+    has_issues = False
+    if driver1_data['data_issues'] or driver2_data['data_issues']:
+        has_issues = True
+        st.warning("**Data Quality Issues Detected:**")
+
+        col1, col2 = st.columns(2)
+        with col1:
+            if driver1_data['data_issues']:
+                st.markdown(f"**{driver1_name}:**")
+                for issue in driver1_data['data_issues']:
+                    st.markdown(f"- {issue}")
+
+        with col2:
+            if driver2_data['data_issues']:
+                st.markdown(f"**{driver2_name}:**")
+                for issue in driver2_data['data_issues']:
+                    st.markdown(f"- {issue}")
+
+        st.info("**Recommendation:** Try selecting a different session (Qualifying or Race) or different drivers for more complete data.")
+
+    # Practice session warning
+    if "Practice" in driver1_data['session_type']:
+        st.info("""
+        **About Practice Sessions:** Drivers run different programs and may not complete full push laps.
+        For the most accurate comparisons, use **Qualifying** or **Race** sessions.
+        """)
 
     # Calculate stats
     tel1 = driver1_data['telemetry']
@@ -813,16 +903,24 @@ if all(key in st.session_state for key in ['driver1_data', 'driver2_data']):
     avg_speed_1 = tel1['Speed'].mean()
     avg_speed_2 = tel2['Speed'].mean()
 
-    # Winner announcement
+    # Driver comparison cards
     col1, col2, col3 = st.columns([1, 0.3, 1])
 
     with col1:
+        quality_class = "quality-warning" if driver1_data['data_issues'] else "quality-good"
+        quality_text = "Data Issues" if driver1_data['data_issues'] else "Complete Data"
+
         st.markdown(f"""
         <div class='driver-card' style='border-left: 3px solid {TEAM_COLORS.get(driver1_data['team'], '#FF0000')}'>
             <div class='driver-name'>{driver1_name}</div>
             <div class='team-badge'>{driver1_data['team']}</div>
+            <div style='margin: 0.5rem 0;'>
+                <span class='data-quality-badge {quality_class}'>{quality_text}</span>
+            </div>
             <div class='lap-time'>{lap_time_1:.3f}</div>
-            <div style='color: #666666; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; margin-bottom: 2rem;'>LAP TIME</div>
+            <div style='color: #666666; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; margin-bottom: 2rem;'>
+                LAP {driver1_data['lap_number']} TIME
+            </div>
         </div>
         """, unsafe_allow_html=True)
 
@@ -834,12 +932,20 @@ if all(key in st.session_state for key in ['driver1_data', 'driver2_data']):
         st.markdown("<div class='vs-divider'>VS</div>", unsafe_allow_html=True)
 
     with col3:
+        quality_class = "quality-warning" if driver2_data['data_issues'] else "quality-good"
+        quality_text = "Data Issues" if driver2_data['data_issues'] else "Complete Data"
+
         st.markdown(f"""
         <div class='driver-card' style='border-left: 3px solid {TEAM_COLORS.get(driver2_data['team'], '#0000FF')}'>
             <div class='driver-name'>{driver2_name}</div>
             <div class='team-badge'>{driver2_data['team']}</div>
+            <div style='margin: 0.5rem 0;'>
+                <span class='data-quality-badge {quality_class}'>{quality_text}</span>
+            </div>
             <div class='lap-time'>{lap_time_2:.3f}</div>
-            <div style='color: #666666; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; margin-bottom: 2rem;'>LAP TIME</div>
+            <div style='color: #666666; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; margin-bottom: 2rem;'>
+                LAP {driver2_data['lap_number']} TIME
+            </div>
         </div>
         """, unsafe_allow_html=True)
 
@@ -869,6 +975,8 @@ if all(key in st.session_state for key in ['driver1_data', 'driver2_data']):
 
     with col1:
         st.markdown("<div class='section-header'>Racing Line</div>", unsafe_allow_html=True)
+        if driver1_data['data_issues'] or driver2_data['data_issues']:
+            st.caption("⚠️ Track position data may be incomplete")
         track_fig = create_track_map(driver1_data, driver2_data, driver1_name, driver2_name)
         st.plotly_chart(track_fig, use_container_width=True)
 
@@ -888,6 +996,7 @@ else:
             <li>Choose two drivers to compare</li>
             <li>Click "Compare" to view the analysis</li>
         </ol>
+        <p><strong>Best results:</strong> Use Qualifying or Race sessions for complete, comparable data.</p>
     </div>
     """, unsafe_allow_html=True)
 
