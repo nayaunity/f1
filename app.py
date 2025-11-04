@@ -780,11 +780,19 @@ with st.sidebar:
                 if error:
                     st.error(f"Error: {error}")
                     st.session_state.session = None
+                    if 'loaded_session_params' in st.session_state:
+                        del st.session_state['loaded_session_params']
                 else:
                     st.session_state.session = session
                     st.session_state.year = year
                     st.session_state.gp = gp
                     st.session_state.session_type = session_type
+                    # Store the loaded session parameters for validation
+                    st.session_state.loaded_session_params = {
+                        'year': year,
+                        'gp': gp,
+                        'session_type': session_type
+                    }
                     st.success(f"✓ Loaded {year} {gp} {session_type}")
         else:
             st.warning("Select a Grand Prix")
@@ -807,7 +815,23 @@ with st.sidebar:
         if "Practice" in st.session_state.session_type:
             st.warning("⚠️ Practice data may be incomplete. Qualifying or Race recommended.")
 
-        if st.button("Compare"):
+        # Check if current selection matches loaded session
+        session_changed = False
+        if 'loaded_session_params' in st.session_state:
+            loaded_params = st.session_state.loaded_session_params
+            if (loaded_params['year'] != year or
+                loaded_params['gp'] != gp or
+                loaded_params['session_type'] != session_type):
+                session_changed = True
+
+        # Show warning if session details changed
+        if session_changed:
+            st.warning("⚠️ Session details changed. Click 'Load Session' first.")
+
+        # Disable Compare button if session details don't match loaded session
+        compare_disabled = session_changed or 'loaded_session_params' not in st.session_state
+
+        if st.button("Compare", disabled=compare_disabled):
             if driver1 == driver2:
                 st.error("Select two different drivers")
             else:
