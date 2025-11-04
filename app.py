@@ -442,7 +442,7 @@ def create_speed_comparison(driver1_data, driver2_data, driver1_name, driver2_na
     ))
 
     fig.update_layout(
-        title=None,
+        showlegend=True,
         xaxis_title="Distance (m)",
         yaxis_title="Speed (km/h)",
         hovermode='x unified',
@@ -450,11 +450,11 @@ def create_speed_comparison(driver1_data, driver2_data, driver1_name, driver2_na
         plot_bgcolor='#000000',
         paper_bgcolor='#000000',
         font=dict(color='#999999', size=11, family='Inter'),
-        margin=dict(l=60, r=40, t=40, b=60),
+        margin=dict(l=60, r=40, t=20, b=60),
         legend=dict(
             orientation="h",
             yanchor="top",
-            y=1.08,
+            y=1.02,
             xanchor="left",
             x=0,
             font=dict(size=12, color='#ffffff'),
@@ -491,36 +491,36 @@ def create_track_map(driver1_data, driver2_data, driver1_name, driver2_name):
     color1 = TEAM_COLORS.get(driver1_data['team'], '#FF0000')
     color2 = TEAM_COLORS.get(driver2_data['team'], '#0000FF')
 
-    # Driver 1 racing line
-    fig.add_trace(go.Scatter(
-        x=tel1['X'],
-        y=tel1['Y'],
-        mode='lines',
-        name=driver1_name,
-        line=dict(color=color1, width=4),
-        hovertemplate='<b>%{fullData.name}</b><br>Speed: ' + tel1['Speed'].astype(str) + ' km/h<extra></extra>'
-    ))
-
-    # Driver 2 racing line
+    # Driver 2 racing line - thick, dashed, semi-transparent background
     fig.add_trace(go.Scatter(
         x=tel2['X'],
         y=tel2['Y'],
         mode='lines',
         name=driver2_name,
-        line=dict(color=color2, width=4),
+        line=dict(color=color2, width=8, dash='dash'),
+        opacity=0.5,
         hovertemplate='<b>%{fullData.name}</b><br>Speed: ' + tel2['Speed'].astype(str) + ' km/h<extra></extra>'
     ))
 
+    # Driver 1 racing line - solid, bright, on top
+    fig.add_trace(go.Scatter(
+        x=tel1['X'],
+        y=tel1['Y'],
+        mode='lines',
+        name=driver1_name,
+        line=dict(color=color1, width=3),
+        hovertemplate='<b>%{fullData.name}</b><br>Speed: ' + tel1['Speed'].astype(str) + ' km/h<extra></extra>'
+    ))
+
     fig.update_layout(
-        title=None,
+        showlegend=True,
         xaxis_title="X Position (m)",
         yaxis_title="Y Position (m)",
         height=600,
         plot_bgcolor='#000000',
         paper_bgcolor='#000000',
-        showlegend=True,
         font=dict(color='#999999', size=11, family='Inter'),
-        margin=dict(l=60, r=40, t=40, b=60),
+        margin=dict(l=60, r=40, t=20, b=60),
         yaxis=dict(
             scaleanchor="x",
             scaleratio=1,
@@ -542,7 +542,7 @@ def create_track_map(driver1_data, driver2_data, driver1_name, driver2_name):
         legend=dict(
             orientation="h",
             yanchor="top",
-            y=1.08,
+            y=1.02,
             xanchor="left",
             x=0,
             font=dict(size=12, color='#ffffff'),
@@ -554,7 +554,7 @@ def create_track_map(driver1_data, driver2_data, driver1_name, driver2_name):
 
 
 def create_delta_time_plot(driver1_data, driver2_data, driver1_name, driver2_name):
-    """Create professional delta time plot."""
+    """Create intuitive delta time plot with color coding."""
     tel1 = driver1_data['telemetry']
     tel2 = driver2_data['telemetry']
 
@@ -574,38 +574,82 @@ def create_delta_time_plot(driver1_data, driver2_data, driver1_name, driver2_nam
     color1 = TEAM_COLORS.get(driver1_data['team'], '#FF0000')
     color2 = TEAM_COLORS.get(driver2_data['team'], '#0000FF')
 
-    # Create color array based on delta
-    colors = [color1 if d > 0 else color2 for d in delta]
+    # Split into two traces: driver 1 winning zones and driver 2 winning zones
+    # Driver 2 is winning when delta is positive (driver 1 is slower)
+    delta_driver2_winning = [d if d > 0 else 0 for d in delta]
+    delta_driver1_winning = [d if d < 0 else 0 for d in delta]
 
-    # Add delta line
+    # Driver 2 winning zones (driver 1 slower)
+    fig.add_trace(go.Scatter(
+        x=common_distance,
+        y=delta_driver2_winning,
+        mode='lines',
+        name=f'{driver2_name} faster here',
+        line=dict(color=color2, width=0),
+        fill='tozeroy',
+        fillcolor=f'rgba({int(color2[1:3], 16)}, {int(color2[3:5], 16)}, {int(color2[5:7], 16)}, 0.3)',
+        hovertemplate=f'<b>{driver2_name} gaining</b><br>Distance: %{{x:.0f}}m<br>Advantage: %{{y:.3f}}s<extra></extra>',
+        showlegend=True
+    ))
+
+    # Driver 1 winning zones (driver 2 slower)
+    fig.add_trace(go.Scatter(
+        x=common_distance,
+        y=delta_driver1_winning,
+        mode='lines',
+        name=f'{driver1_name} faster here',
+        line=dict(color=color1, width=0),
+        fill='tozeroy',
+        fillcolor=f'rgba({int(color1[1:3], 16)}, {int(color1[3:5], 16)}, {int(color1[5:7], 16)}, 0.3)',
+        hovertemplate=f'<b>{driver1_name} gaining</b><br>Distance: %{{x:.0f}}m<br>Advantage: %{{y:.3f}}s<extra></extra>',
+        showlegend=True
+    ))
+
+    # White line to show the actual delta
     fig.add_trace(go.Scatter(
         x=common_distance,
         y=delta,
         mode='lines',
-        name='Time Delta',
+        name='Gap between drivers',
         line=dict(color='#ffffff', width=2),
-        fill='tozeroy',
-        fillcolor='rgba(255, 255, 255, 0.05)',
-        hovertemplate='Distance: %{x:.0f}m<br>Delta: %{y:.3f}s<extra></extra>'
+        hovertemplate='Distance: %{x:.0f}m<br>Time gap: %{y:.3f}s<extra></extra>',
+        showlegend=False
     ))
 
+    # Prominent zero line
     fig.add_hline(
         y=0,
-        line_dash="dot",
+        line_dash="solid",
         line_color="#666666",
-        line_width=1
+        line_width=2,
+        annotation_text="Even",
+        annotation_position="right",
+        annotation_font_size=10,
+        annotation_font_color="#999999"
     )
 
+    # Calculate max delta for annotations
+    max_delta = max(abs(delta.min()), abs(delta.max()))
+
     fig.update_layout(
-        title=None,
-        xaxis_title="Distance (m)",
-        yaxis_title="Time Delta (s)",
+        showlegend=True,
+        xaxis_title="Distance around the lap (meters)",
+        yaxis_title="Time Gap (seconds)",
         height=600,
         plot_bgcolor='#000000',
         paper_bgcolor='#000000',
-        hovermode='x',
+        hovermode='x unified',
         font=dict(color='#999999', size=11, family='Inter'),
-        margin=dict(l=60, r=40, t=40, b=60),
+        margin=dict(l=60, r=40, t=20, b=60),
+        legend=dict(
+            orientation="h",
+            yanchor="top",
+            y=1.02,
+            xanchor="left",
+            x=0,
+            font=dict(size=11, color='#ffffff'),
+            bgcolor='rgba(0,0,0,0)'
+        ),
         xaxis=dict(
             gridcolor='#1a1a1a',
             showgrid=True,
@@ -619,29 +663,31 @@ def create_delta_time_plot(driver1_data, driver2_data, driver1_name, driver2_nam
             showgrid=True,
             zeroline=True,
             zerolinecolor='#666666',
-            zerolinewidth=1,
+            zerolinewidth=2,
             showline=True,
             linewidth=1,
             linecolor='#1a1a1a'
         ),
         annotations=[
             dict(
-                text=f"{driver1_name} slower",
+                text=f"↑ {driver2_name} ahead",
                 xref="paper", yref="paper",
-                x=0.02, y=0.98,
+                x=0.98, y=0.98,
                 showarrow=False,
-                font=dict(size=10, color='#666666'),
+                font=dict(size=11, color=color2, weight='bold'),
                 bgcolor='rgba(0, 0, 0, 0.8)',
-                borderpad=8
+                borderpad=8,
+                xanchor='right'
             ),
             dict(
-                text=f"{driver2_name} slower",
+                text=f"↓ {driver1_name} ahead",
                 xref="paper", yref="paper",
-                x=0.02, y=0.02,
+                x=0.98, y=0.02,
                 showarrow=False,
-                font=dict(size=10, color='#666666'),
+                font=dict(size=11, color=color1, weight='bold'),
                 bgcolor='rgba(0, 0, 0, 0.8)',
-                borderpad=8
+                borderpad=8,
+                xanchor='right'
             )
         ]
     )
