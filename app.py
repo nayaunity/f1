@@ -14,7 +14,7 @@ fastf1.Cache.enable_cache('cache')
 
 # Page configuration
 st.set_page_config(
-    page_title="F1 Telemetry Battle",
+    page_title="F1 Driver Battle",
     page_icon="🏎️",
     layout="wide",
     initial_sidebar_state="expanded"
@@ -857,7 +857,7 @@ def create_delta_time_plot(driver1_data, driver2_data, driver1_name, driver2_nam
 
 
 # Main App Layout
-st.markdown("<div class='main-title'>F1 Telemetry Battle</div>", unsafe_allow_html=True)
+st.markdown("<div class='main-title'>F1 Driver Battle</div>", unsafe_allow_html=True)
 st.markdown("<div class='main-subtitle'>Professional telemetry analysis and driver comparison</div>", unsafe_allow_html=True)
 
 # Sidebar
