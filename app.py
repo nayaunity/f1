@@ -529,6 +529,47 @@ st.markdown("""
         100% { transform: translateX(100%); }
     }
 </style>
+
+<script>
+    // Auto-close sidebar on mobile when Compare button is clicked
+    function setupMobileAutoClose() {
+        // Check if mobile (screen width <= 768px)
+        const isMobile = () => window.innerWidth <= 768;
+
+        // Find and monitor the Compare button
+        const observer = new MutationObserver(() => {
+            const compareButtons = document.querySelectorAll('button');
+            compareButtons.forEach(button => {
+                if (button.textContent.includes('Compare') && !button.hasAttribute('data-mobile-close')) {
+                    button.setAttribute('data-mobile-close', 'true');
+
+                    button.addEventListener('click', () => {
+                        if (isMobile()) {
+                            // Wait a moment for Streamlit to process the click
+                            setTimeout(() => {
+                                // Find and click the sidebar toggle button
+                                const sidebarToggle = document.querySelector('button[kind="header"]') ||
+                                                     document.querySelector('[data-testid="stHeader"] button') ||
+                                                     document.querySelector('header button');
+                                if (sidebarToggle) {
+                                    sidebarToggle.click();
+                                }
+                            }, 300);
+                        }
+                    });
+                }
+            });
+        });
+
+        observer.observe(document.body, {
+            childList: true,
+            subtree: true
+        });
+    }
+
+    // Run on load
+    setupMobileAutoClose();
+</script>
 """, unsafe_allow_html=True)
 
 # Team colors for visualization (2024 season)
