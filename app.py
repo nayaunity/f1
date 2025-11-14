@@ -146,23 +146,31 @@ st.markdown("""
     }
 
     /* Disable typing in selectbox - dropdown only */
-    .stSelectbox input {
+    .stSelectbox input,
+    [data-baseweb="select"] input,
+    [data-baseweb="popover"] input,
+    input[role="combobox"] {
         caret-color: transparent !important;
         cursor: pointer !important;
         pointer-events: none !important;
         user-select: none !important;
+        -webkit-user-select: none !important;
+        -moz-user-select: none !important;
+        -ms-user-select: none !important;
     }
 
-    .stSelectbox input:focus {
+    .stSelectbox input:focus,
+    [data-baseweb="select"] input:focus,
+    input[role="combobox"]:focus {
         caret-color: transparent !important;
+        outline: none !important;
     }
 
     /* Re-enable pointer events on selectbox container so dropdown still works */
-    .stSelectbox > div {
-        pointer-events: auto !important;
-    }
-
-    .stSelectbox [role="button"] {
+    .stSelectbox > div,
+    [data-baseweb="select"],
+    .stSelectbox [role="button"],
+    [data-baseweb="select"] [role="button"] {
         pointer-events: auto !important;
     }
 
@@ -505,47 +513,74 @@ st.markdown("""
 <script>
     // Disable typing in selectboxes - make them dropdown-only
     function disableSelectboxInput() {
-        document.querySelectorAll('.stSelectbox input').forEach(input => {
-            if (input.hasAttribute('data-processed')) return;
-            input.setAttribute('data-processed', 'true');
+        // Target ALL input fields in selectboxes with multiple selectors
+        const selectors = [
+            '.stSelectbox input',
+            '[data-baseweb="select"] input',
+            '[data-baseweb="popover"] input',
+            'input[role="combobox"]',
+            'div[data-baseweb="select"] input'
+        ];
 
-            // Multiple approaches to prevent mobile keyboard
-            input.setAttribute('readonly', 'readonly');
-            input.setAttribute('inputmode', 'none');
-            input.style.pointerEvents = 'none';
-            input.style.userSelect = 'none';
+        selectors.forEach(selector => {
+            document.querySelectorAll(selector).forEach(input => {
+                if (input.hasAttribute('data-processed')) return;
+                input.setAttribute('data-processed', 'true');
 
-            // Prevent focus and blur immediately
-            const preventFocus = (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                e.target.blur();
-            };
+                // Multiple approaches to prevent mobile keyboard
+                input.setAttribute('readonly', 'readonly');
+                input.setAttribute('inputmode', 'none');
+                input.setAttribute('disabled', 'disabled');
+                input.style.pointerEvents = 'none';
+                input.style.userSelect = 'none';
 
-            input.addEventListener('focus', preventFocus, true);
-            input.addEventListener('touchstart', preventFocus, true);
-            input.addEventListener('click', preventFocus, true);
+                // Prevent focus and blur immediately
+                const preventFocus = (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    e.target.blur();
+                    return false;
+                };
 
-            // Prevent all keyboard input
-            input.addEventListener('keydown', (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-            }, true);
+                input.addEventListener('focus', preventFocus, true);
+                input.addEventListener('focusin', preventFocus, true);
+                input.addEventListener('touchstart', preventFocus, true);
+                input.addEventListener('touchend', preventFocus, true);
+                input.addEventListener('mousedown', preventFocus, true);
+                input.addEventListener('click', preventFocus, true);
 
-            input.addEventListener('keypress', (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-            }, true);
+                // Prevent all keyboard input
+                input.addEventListener('keydown', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    return false;
+                }, true);
 
-            input.addEventListener('input', (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-            }, true);
+                input.addEventListener('keypress', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    return false;
+                }, true);
+
+                input.addEventListener('input', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    return false;
+                }, true);
+
+                input.addEventListener('beforeinput', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    return false;
+                }, true);
+            });
         });
     }
 
     // Run on initial load
-    disableSelectboxInput();
+    setTimeout(disableSelectboxInput, 100);
+    setTimeout(disableSelectboxInput, 500);
+    setTimeout(disableSelectboxInput, 1000);
 
     // Watch for new selectboxes
     const observer = new MutationObserver(() => {
@@ -554,11 +589,13 @@ st.markdown("""
 
     observer.observe(document.body, {
         childList: true,
-        subtree: true
+        subtree: true,
+        attributes: true,
+        attributeFilter: ['class', 'data-baseweb']
     });
 
     // Also run periodically for safety
-    setInterval(disableSelectboxInput, 500);
+    setInterval(disableSelectboxInput, 300);
 </script>
 """, unsafe_allow_html=True)
 
