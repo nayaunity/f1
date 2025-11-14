@@ -532,43 +532,79 @@ st.markdown("""
 
 <script>
     // Auto-close sidebar on mobile when Compare button is clicked
-    function setupMobileAutoClose() {
-        // Check if mobile (screen width <= 768px)
+    (function() {
         const isMobile = () => window.innerWidth <= 768;
 
-        // Find and monitor the Compare button
-        const observer = new MutationObserver(() => {
-            const compareButtons = document.querySelectorAll('button');
-            compareButtons.forEach(button => {
-                if (button.textContent.includes('Compare') && !button.hasAttribute('data-mobile-close')) {
-                    button.setAttribute('data-mobile-close', 'true');
+        // Check on page load if we should close sidebar (after Compare was clicked)
+        function checkAndCloseSidebar() {
+            if (isMobile() && localStorage.getItem('f1_close_sidebar') === 'true') {
+                localStorage.removeItem('f1_close_sidebar');
 
-                    button.addEventListener('click', () => {
-                        if (isMobile()) {
-                            // Wait a moment for Streamlit to process the click
-                            setTimeout(() => {
-                                // Find and click the sidebar toggle button
-                                const sidebarToggle = document.querySelector('button[kind="header"]') ||
-                                                     document.querySelector('[data-testid="stHeader"] button') ||
-                                                     document.querySelector('header button');
-                                if (sidebarToggle) {
-                                    sidebarToggle.click();
-                                }
-                            }, 300);
+                // Try multiple times to find and click the sidebar toggle
+                let attempts = 0;
+                const maxAttempts = 10;
+
+                const tryClose = setInterval(() => {
+                    attempts++;
+
+                    // Find sidebar - check if it's open
+                    const sidebar = document.querySelector('[data-testid="stSidebar"]');
+                    const isOpen = sidebar && sidebar.getAttribute('aria-expanded') !== 'false';
+
+                    if (isOpen) {
+                        // Find toggle button with multiple selectors
+                        const toggleButton = document.querySelector('button[kind="header"]') ||
+                                           document.querySelector('[data-testid="baseButton-header"]') ||
+                                           document.querySelector('[data-testid="stHeader"] button') ||
+                                           document.querySelector('header button') ||
+                                           Array.from(document.querySelectorAll('button')).find(btn =>
+                                               btn.querySelector('svg') && btn.closest('header')
+                                           );
+
+                        if (toggleButton) {
+                            console.log('Closing sidebar on mobile after Compare');
+                            toggleButton.click();
+                            clearInterval(tryClose);
                         }
-                    });
-                }
+                    }
+
+                    if (attempts >= maxAttempts) {
+                        clearInterval(tryClose);
+                    }
+                }, 100);
+            }
+        }
+
+        // Set up listener for Compare button
+        function setupCompareListener() {
+            const observer = new MutationObserver(() => {
+                const buttons = document.querySelectorAll('button');
+                buttons.forEach(button => {
+                    if (button.textContent.trim() === 'Compare' && !button.hasAttribute('data-close-setup')) {
+                        button.setAttribute('data-close-setup', 'true');
+
+                        button.addEventListener('click', () => {
+                            if (isMobile()) {
+                                console.log('Compare clicked on mobile - setting flag to close sidebar');
+                                localStorage.setItem('f1_close_sidebar', 'true');
+                            }
+                        });
+                    }
+                });
             });
-        });
 
-        observer.observe(document.body, {
-            childList: true,
-            subtree: true
-        });
-    }
+            observer.observe(document.body, {
+                childList: true,
+                subtree: true
+            });
+        }
 
-    // Run on load
-    setupMobileAutoClose();
+        // Run both functions
+        setTimeout(checkAndCloseSidebar, 500);
+        setTimeout(checkAndCloseSidebar, 1000);
+        setTimeout(checkAndCloseSidebar, 1500);
+        setupCompareListener();
+    })();
 </script>
 """, unsafe_allow_html=True)
 
