@@ -21,7 +21,7 @@ st.set_page_config(
     page_title="F1 Driver Battle",
     page_icon="🏎️",
     layout="wide",
-    initial_sidebar_state="expanded"
+    initial_sidebar_state="auto"
 )
 
 # F1 × Adobe × Notion inspired styling
@@ -462,6 +462,57 @@ st.markdown("""
         0% { transform: translateX(-100%); }
         100% { transform: translateX(100%); }
     }
+
+    /* Mobile-only session selection prompt */
+    .mobile-sidebar-prompt {
+        display: none;
+        background: linear-gradient(135deg, #E10600 0%, #FF1E00 100%);
+        border-radius: 12px;
+        padding: 1.5rem;
+        margin: 2rem 0;
+        text-align: center;
+        box-shadow: 0 4px 16px rgba(225, 6, 0, 0.3);
+        animation: pulse 2s ease-in-out infinite;
+    }
+
+    .mobile-sidebar-prompt h3 {
+        color: #ffffff !important;
+        font-size: 1.125rem !important;
+        margin-bottom: 0.5rem !important;
+        border: none !important;
+    }
+
+    .mobile-sidebar-prompt p {
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 0.875rem;
+        margin: 0;
+    }
+
+    .mobile-menu-icon {
+        display: inline-block;
+        font-size: 1.5rem;
+        vertical-align: middle;
+        margin-right: 0.5rem;
+    }
+
+    @keyframes pulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.02); }
+    }
+
+    /* Show only on mobile devices */
+    @media screen and (max-width: 768px) {
+        .mobile-sidebar-prompt {
+            display: block;
+        }
+    }
+
+    /* Hide on desktop */
+    @media screen and (min-width: 769px) {
+        .mobile-sidebar-prompt {
+            display: none !important;
+        }
+    }
 </style>
 """, unsafe_allow_html=True)
 
@@ -863,6 +914,14 @@ def create_delta_time_plot(driver1_data, driver2_data, driver1_name, driver2_nam
 # Main App Layout
 st.markdown("<div class='main-title'>F1 Driver Battle</div>", unsafe_allow_html=True)
 st.markdown("<div class='main-subtitle'>Professional telemetry analysis and driver comparison</div>", unsafe_allow_html=True)
+
+# Mobile-only sidebar prompt
+st.markdown("""
+<div class='mobile-sidebar-prompt'>
+    <h3><span class='mobile-menu-icon'>☰</span>Tap Menu to Get Started</h3>
+    <p>Open the sidebar menu to select a session and compare drivers</p>
+</div>
+""", unsafe_allow_html=True)
 
 # Sidebar
 with st.sidebar:
