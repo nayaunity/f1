@@ -145,6 +145,16 @@ st.markdown("""
         background: rgba(225, 6, 0, 0.08) !important;
     }
 
+    /* Disable typing in selectbox - dropdown only */
+    .stSelectbox input {
+        caret-color: transparent !important;
+        cursor: pointer !important;
+    }
+
+    .stSelectbox input:focus {
+        caret-color: transparent !important;
+    }
+
     /* F1 Racing button */
     .stButton > button {
         background: linear-gradient(135deg, #E10600 0%, #FF1E00 100%);
@@ -480,6 +490,27 @@ st.markdown("""
         100% { transform: translateX(100%); }
     }
 </style>
+
+<script>
+    // Disable typing in selectboxes - make them dropdown-only
+    const observer = new MutationObserver(() => {
+        document.querySelectorAll('.stSelectbox input').forEach(input => {
+            input.setAttribute('readonly', 'readonly');
+            input.addEventListener('keydown', (e) => {
+                // Allow only navigation keys (arrow up/down, enter, escape, tab)
+                const allowedKeys = ['ArrowUp', 'ArrowDown', 'Enter', 'Escape', 'Tab'];
+                if (!allowedKeys.includes(e.key)) {
+                    e.preventDefault();
+                }
+            });
+        });
+    });
+
+    observer.observe(document.body, {
+        childList: true,
+        subtree: true
+    });
+</script>
 """, unsafe_allow_html=True)
 
 # Team colors for visualization (2024 season)
