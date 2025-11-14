@@ -6,11 +6,15 @@ import pandas as pd
 import numpy as np
 from datetime import datetime
 import warnings
+import os
 
 warnings.filterwarnings('ignore')
 
 # Enable Fast-F1 caching
-fastf1.Cache.enable_cache('cache')
+cache_dir = 'cache'
+if not os.path.exists(cache_dir):
+    os.makedirs(cache_dir)
+fastf1.Cache.enable_cache(cache_dir)
 
 # Page configuration
 st.set_page_config(
