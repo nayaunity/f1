@@ -149,10 +149,21 @@ st.markdown("""
     .stSelectbox input {
         caret-color: transparent !important;
         cursor: pointer !important;
+        pointer-events: none !important;
+        user-select: none !important;
     }
 
     .stSelectbox input:focus {
         caret-color: transparent !important;
+    }
+
+    /* Re-enable pointer events on selectbox container so dropdown still works */
+    .stSelectbox > div {
+        pointer-events: auto !important;
+    }
+
+    .stSelectbox [role="button"] {
+        pointer-events: auto !important;
     }
 
     /* F1 Racing button */
@@ -493,39 +504,61 @@ st.markdown("""
 
 <script>
     // Disable typing in selectboxes - make them dropdown-only
-    const observer = new MutationObserver(() => {
+    function disableSelectboxInput() {
         document.querySelectorAll('.stSelectbox input').forEach(input => {
-            // Prevent mobile keyboard from appearing
+            if (input.hasAttribute('data-processed')) return;
+            input.setAttribute('data-processed', 'true');
+
+            // Multiple approaches to prevent mobile keyboard
             input.setAttribute('readonly', 'readonly');
             input.setAttribute('inputmode', 'none');
+            input.style.pointerEvents = 'none';
+            input.style.userSelect = 'none';
 
-            // Blur immediately on focus to prevent keyboard on mobile
-            input.addEventListener('focus', (e) => {
+            // Prevent focus and blur immediately
+            const preventFocus = (e) => {
+                e.preventDefault();
+                e.stopPropagation();
                 e.target.blur();
-                // Click the parent div to open dropdown instead
-                const parent = e.target.closest('.stSelectbox');
-                if (parent) {
-                    const dropdown = parent.querySelector('[role="button"]');
-                    if (dropdown) {
-                        dropdown.click();
-                    }
-                }
+            };
+
+            input.addEventListener('focus', preventFocus, true);
+            input.addEventListener('touchstart', preventFocus, true);
+            input.addEventListener('click', preventFocus, true);
+
+            // Prevent all keyboard input
+            input.addEventListener('keydown', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
             }, true);
 
-            input.addEventListener('keydown', (e) => {
-                // Allow only navigation keys (arrow up/down, enter, escape, tab)
-                const allowedKeys = ['ArrowUp', 'ArrowDown', 'Enter', 'Escape', 'Tab'];
-                if (!allowedKeys.includes(e.key)) {
-                    e.preventDefault();
-                }
-            });
+            input.addEventListener('keypress', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+            }, true);
+
+            input.addEventListener('input', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+            }, true);
         });
+    }
+
+    // Run on initial load
+    disableSelectboxInput();
+
+    // Watch for new selectboxes
+    const observer = new MutationObserver(() => {
+        disableSelectboxInput();
     });
 
     observer.observe(document.body, {
         childList: true,
         subtree: true
     });
+
+    // Also run periodically for safety
+    setInterval(disableSelectboxInput, 500);
 </script>
 """, unsafe_allow_html=True)
 
