@@ -490,6 +490,19 @@ st.markdown("""
         text-align: center;
         box-shadow: 0 4px 16px rgba(225, 6, 0, 0.3);
         animation: pulse 2s ease-in-out infinite;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        user-select: none;
+    }
+
+    .mobile-sidebar-prompt:hover {
+        background: linear-gradient(135deg, #FF1E00 0%, #E10600 100%);
+        transform: scale(1.02);
+        box-shadow: 0 6px 20px rgba(225, 6, 0, 0.4);
+    }
+
+    .mobile-sidebar-prompt:active {
+        transform: scale(0.98);
     }
 
     .mobile-sidebar-prompt h3 {
@@ -934,9 +947,9 @@ st.markdown("<div class='main-subtitle'>Professional telemetry analysis and driv
 
 # Mobile-only sidebar prompt
 st.markdown("""
-<div class='mobile-sidebar-prompt'>
-    <h3><span class='mobile-menu-icon'>☰</span>Tap Menu to Get Started</h3>
-    <p>Open the sidebar menu to select a session and compare drivers</p>
+<div class='mobile-sidebar-prompt' onclick="document.querySelector('button[kind=header]').click()">
+    <h3><span class='mobile-menu-icon'>☰</span>Tap to Get Started</h3>
+    <p>Select a session and compare drivers</p>
 </div>
 """, unsafe_allow_html=True)
 
