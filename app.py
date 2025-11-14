@@ -42,7 +42,24 @@ st.markdown("""
 
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
-    header {visibility: hidden;}
+
+    /* Keep header visible but style it */
+    header {
+        background: transparent !important;
+    }
+
+    /* Style the hamburger menu button */
+    button[kind="header"] {
+        background-color: rgba(225, 6, 0, 0.1) !important;
+        border: 1.5px solid rgba(225, 6, 0, 0.3) !important;
+        border-radius: 8px !important;
+        color: #E10600 !important;
+    }
+
+    button[kind="header"]:hover {
+        background-color: rgba(225, 6, 0, 0.2) !important;
+        border-color: #E10600 !important;
+    }
 
     ::-webkit-scrollbar {
         width: 10px;
