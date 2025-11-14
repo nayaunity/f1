@@ -145,33 +145,52 @@ st.markdown("""
         background: rgba(225, 6, 0, 0.08) !important;
     }
 
-    /* Disable typing in selectbox - dropdown only */
-    .stSelectbox input,
-    [data-baseweb="select"] input,
-    [data-baseweb="popover"] input,
-    input[role="combobox"] {
-        caret-color: transparent !important;
+    /* Radio button styling - touch-friendly */
+    .stRadio > div {
+        gap: 0.75rem;
+    }
+
+    .stRadio > div > label {
+        background: rgba(255, 255, 255, 0.05) !important;
+        border: 1.5px solid rgba(255, 255, 255, 0.1) !important;
+        border-radius: 8px !important;
+        padding: 0.75rem 1rem !important;
+        margin: 0.25rem 0 !important;
+        transition: all 0.25s ease !important;
         cursor: pointer !important;
-        pointer-events: none !important;
-        user-select: none !important;
-        -webkit-user-select: none !important;
-        -moz-user-select: none !important;
-        -ms-user-select: none !important;
+        min-height: 44px !important;
+        display: flex !important;
+        align-items: center !important;
     }
 
-    .stSelectbox input:focus,
-    [data-baseweb="select"] input:focus,
-    input[role="combobox"]:focus {
-        caret-color: transparent !important;
-        outline: none !important;
+    .stRadio > div > label:hover {
+        border-color: #E10600 !important;
+        background: rgba(225, 6, 0, 0.08) !important;
     }
 
-    /* Re-enable pointer events on selectbox container so dropdown still works */
-    .stSelectbox > div,
-    [data-baseweb="select"],
-    .stSelectbox [role="button"],
-    [data-baseweb="select"] [role="button"] {
-        pointer-events: auto !important;
+    .stRadio > div > label[data-checked="true"] {
+        background: rgba(225, 6, 0, 0.15) !important;
+        border-color: #E10600 !important;
+    }
+
+    /* Expander styling */
+    .stExpander {
+        background: rgba(255, 255, 255, 0.03) !important;
+        border: 1.5px solid rgba(255, 255, 255, 0.1) !important;
+        border-radius: 8px !important;
+        margin: 0.5rem 0 !important;
+    }
+
+    .stExpander:hover {
+        border-color: rgba(225, 6, 0, 0.5) !important;
+    }
+
+    [data-testid="stExpander"] summary {
+        font-size: 0.875rem !important;
+        font-weight: 600 !important;
+        color: #ffffff !important;
+        min-height: 44px !important;
+        padding: 0.75rem 1rem !important;
     }
 
     /* F1 Racing button */
@@ -190,6 +209,7 @@ st.markdown("""
         box-shadow: 0 4px 14px rgba(225, 6, 0, 0.25);
         position: relative;
         overflow: hidden;
+        min-height: 44px;
     }
 
     .stButton > button:before {
@@ -509,94 +529,6 @@ st.markdown("""
         100% { transform: translateX(100%); }
     }
 </style>
-
-<script>
-    // Disable typing in selectboxes - make them dropdown-only
-    function disableSelectboxInput() {
-        // Target ALL input fields in selectboxes with multiple selectors
-        const selectors = [
-            '.stSelectbox input',
-            '[data-baseweb="select"] input',
-            '[data-baseweb="popover"] input',
-            'input[role="combobox"]',
-            'div[data-baseweb="select"] input'
-        ];
-
-        selectors.forEach(selector => {
-            document.querySelectorAll(selector).forEach(input => {
-                if (input.hasAttribute('data-processed')) return;
-                input.setAttribute('data-processed', 'true');
-
-                // Multiple approaches to prevent mobile keyboard
-                input.setAttribute('readonly', 'readonly');
-                input.setAttribute('inputmode', 'none');
-                input.setAttribute('disabled', 'disabled');
-                input.style.pointerEvents = 'none';
-                input.style.userSelect = 'none';
-
-                // Prevent focus and blur immediately
-                const preventFocus = (e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    e.target.blur();
-                    return false;
-                };
-
-                input.addEventListener('focus', preventFocus, true);
-                input.addEventListener('focusin', preventFocus, true);
-                input.addEventListener('touchstart', preventFocus, true);
-                input.addEventListener('touchend', preventFocus, true);
-                input.addEventListener('mousedown', preventFocus, true);
-                input.addEventListener('click', preventFocus, true);
-
-                // Prevent all keyboard input
-                input.addEventListener('keydown', (e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    return false;
-                }, true);
-
-                input.addEventListener('keypress', (e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    return false;
-                }, true);
-
-                input.addEventListener('input', (e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    return false;
-                }, true);
-
-                input.addEventListener('beforeinput', (e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    return false;
-                }, true);
-            });
-        });
-    }
-
-    // Run on initial load
-    setTimeout(disableSelectboxInput, 100);
-    setTimeout(disableSelectboxInput, 500);
-    setTimeout(disableSelectboxInput, 1000);
-
-    // Watch for new selectboxes
-    const observer = new MutationObserver(() => {
-        disableSelectboxInput();
-    });
-
-    observer.observe(document.body, {
-        childList: true,
-        subtree: true,
-        attributes: true,
-        attributeFilter: ['class', 'data-baseweb']
-    });
-
-    // Also run periodically for safety
-    setInterval(disableSelectboxInput, 300);
-</script>
 """, unsafe_allow_html=True)
 
 # Team colors for visualization (2024 season)
@@ -1003,8 +935,25 @@ with st.sidebar:
     st.markdown("### Session Selection")
     st.markdown("")
 
+    # Detect mobile using session state and JavaScript
+    if 'is_mobile' not in st.session_state:
+        st.session_state.is_mobile = False
+
     current_year = datetime.now().year
-    year = st.selectbox("Season", options=list(range(2024, 2017, -1)), index=0)
+
+    # MOBILE-OPTIMIZED UI - Using radio buttons instead of selectboxes
+    # Check if mobile (you can enhance this with JavaScript detection)
+    is_mobile = st.session_state.is_mobile
+
+    # Season Selection
+    st.markdown('<p style="font-size: 0.6875rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #b0b0b0; margin-bottom: 0.5rem;">Season</p>', unsafe_allow_html=True)
+    year = st.radio(
+        "Season",
+        options=list(range(2024, 2017, -1)),
+        index=0,
+        label_visibility="collapsed",
+        horizontal=True
+    )
 
     try:
         schedule = fastf1.get_event_schedule(year)
@@ -1015,16 +964,27 @@ with st.sidebar:
         available_events = []
         event_names = []
 
+    # Grand Prix Selection - Use expander with radio for mobile-friendly experience
     if event_names:
-        gp = st.selectbox("Grand Prix", options=event_names, index=0)
+        st.markdown('<p style="font-size: 0.6875rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #b0b0b0; margin-bottom: 0.5rem; margin-top: 1rem;">Grand Prix</p>', unsafe_allow_html=True)
+        with st.expander("📍 Select Grand Prix", expanded=False):
+            gp = st.radio(
+                "Grand Prix List",
+                options=event_names,
+                index=0,
+                label_visibility="collapsed"
+            )
     else:
         st.warning("No events available")
         gp = None
 
-    session_type = st.selectbox(
+    # Session Type Selection
+    st.markdown('<p style="font-size: 0.6875rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #b0b0b0; margin-bottom: 0.5rem; margin-top: 1rem;">Session Type</p>', unsafe_allow_html=True)
+    session_type = st.radio(
         "Session Type",
         options=["Qualifying", "Race", "Sprint", "Practice 1", "Practice 2", "Practice 3"],
         index=0,
+        label_visibility="collapsed",
         help="Qualifying and Race provide the most reliable comparison data"
     )
 
@@ -1068,8 +1028,25 @@ with st.sidebar:
         st.markdown("### Driver Selection")
         st.markdown("")
 
-        driver1 = st.selectbox("Driver 1", options=drivers, index=0 if len(drivers) > 0 else None)
-        driver2 = st.selectbox("Driver 2", options=drivers, index=1 if len(drivers) > 1 else 0)
+        # Driver 1 Selection
+        st.markdown('<p style="font-size: 0.6875rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #b0b0b0; margin-bottom: 0.5rem;">Driver 1</p>', unsafe_allow_html=True)
+        with st.expander("🏎️ Select Driver 1", expanded=False):
+            driver1 = st.radio(
+                "Driver 1 List",
+                options=drivers,
+                index=0 if len(drivers) > 0 else None,
+                label_visibility="collapsed"
+            )
+
+        # Driver 2 Selection
+        st.markdown('<p style="font-size: 0.6875rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #b0b0b0; margin-bottom: 0.5rem; margin-top: 1rem;">Driver 2</p>', unsafe_allow_html=True)
+        with st.expander("🏎️ Select Driver 2", expanded=False):
+            driver2 = st.radio(
+                "Driver 2 List",
+                options=drivers,
+                index=1 if len(drivers) > 1 else 0,
+                label_visibility="collapsed"
+            )
 
         st.markdown("")
 
