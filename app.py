@@ -495,7 +495,23 @@ st.markdown("""
     // Disable typing in selectboxes - make them dropdown-only
     const observer = new MutationObserver(() => {
         document.querySelectorAll('.stSelectbox input').forEach(input => {
+            // Prevent mobile keyboard from appearing
             input.setAttribute('readonly', 'readonly');
+            input.setAttribute('inputmode', 'none');
+
+            // Blur immediately on focus to prevent keyboard on mobile
+            input.addEventListener('focus', (e) => {
+                e.target.blur();
+                // Click the parent div to open dropdown instead
+                const parent = e.target.closest('.stSelectbox');
+                if (parent) {
+                    const dropdown = parent.querySelector('[role="button"]');
+                    if (dropdown) {
+                        dropdown.click();
+                    }
+                }
+            }, true);
+
             input.addEventListener('keydown', (e) => {
                 // Allow only navigation keys (arrow up/down, enter, escape, tab)
                 const allowedKeys = ['ArrowUp', 'ArrowDown', 'Enter', 'Escape', 'Tab'];
